@@ -1,0 +1,70 @@
+.dishes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.dish-item {
+    display: flex;
+    flex-direction: column;
+    border-radius: 35px;
+    background-color: white;
+    padding: 30px 40px;
+    cursor: pointer;
+    filter: drop-shadow(17px 19px 24px rgba(0, 0, 0, 0.13));
+}
+
+.dish-item:hover {
+    border: 2px solid tomato;
+}
+
+.dish-item img {
+    width: 100%;
+    border-radius: 35px;
+    margin-bottom: 15px;
+}
+
+.dish-item .price {
+    font-size: 20px;
+}
+
+.dish-item .name {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.dish-item .weight,
+.dish-item .volume {
+    color: grey;
+    margin-bottom: 15px;
+}
+
+.dish-item button {
+    background-color: #f1eee9;
+    padding: 10px, 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+    margin-top: auto;
+}
+
+.dish-item:hover button {
+    background-color: grey;
+    color: white;
+}
+
+.dish-item p {
+    margin: 0px;
+    padding: 0px;
+}
+
+.main-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+#active {
+    color: tomato;
+}
