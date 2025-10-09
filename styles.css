@@ -14,6 +14,7 @@ header {
 }
 
 .nav-container, nav {
+    display: flex;
     margin: 0;
     padding: 0;
     flex-wrap: wrap;
@@ -122,6 +123,8 @@ footer p {
     display: flex;
     gap: 30px;
     margin-top: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 nav {
@@ -143,8 +146,6 @@ li {
 }
 
 .container {
-    max-width: 75%;
-    margin: 0 auto;
     flex: 1;
 }
 
