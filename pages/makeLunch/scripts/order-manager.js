@@ -82,5 +82,6 @@ class OrderManager {
   getTotalPrice(){ return Object.values(this.selectedDishes).reduce((a,d)=>a+(d?d.price:0),0); }
 }
 
-let orderManager;
-document.addEventListener('DOMContentLoaded', ()=>{ orderManager = new OrderManager(); });
+document.addEventListener('DOMContentLoaded', () => {
+  window.orderManager = new OrderManager();
+});

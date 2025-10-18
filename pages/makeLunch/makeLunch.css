@@ -291,3 +291,132 @@ textarea {
   border-color: #7ec798;
   color: #15653a;
 }
+
+/* лаба 6 */
+/* Виды комбо */
+.combos {
+  max-width: 980px;
+  margin: 24px auto 8px;
+  padding: 0 16px;
+}
+.combos h2 {
+  text-align: center;
+  font-size: 22px;
+  margin: 0 0 12px;
+}
+
+.combos-grid-precise {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 54px;
+  row-gap: 22px;
+  justify-items: center;
+  align-items: start;
+}
+
+.combo-precise {
+  display: flex;
+  gap: 26px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: nowrap;
+  min-height: 92px;
+}
+
+.ci {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ci img {
+  width: 44px;
+  height: 44px;
+}
+.ci img:hover {
+  transform: translateY(-4px) scale(1.1);
+}
+.ci span {
+  font-size: 12px;
+  line-height: 1.15;
+  margin-top: 4px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.combo-precise {
+  display: flex;
+  gap: 26px;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 92px;
+}
+.dessert-cell {
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
+}
+.dessert-note-small {
+  font-size: 10px;
+  color: #666;
+  text-align: center;
+  margin-top: -2px;
+}
+
+.dessert-line .dessert span {
+  font-size: 12px;
+}
+.dessert-line p {
+  margin: 2px 0 0;
+  font-size: 10px;
+  color: #666;
+}
+
+/* Всплывающее уведомление */
+.notify-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: grid;
+  place-items: center;
+  z-index: 9999;
+}
+.notify {
+  max-width: 520px;
+  width: min(92vw, 520px);
+  background: #fff;
+  color: #111;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  padding: 20px 20px 16px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+.notify h4 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  line-height: 1.3;
+}
+.notify p {
+  margin: 0 0 16px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.notify-ok {
+  appearance: none;
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  background: #111;
+  color: #fff;
+  display: block;
+  margin: 12px auto 0
+}
+.notify-ok:hover {
+  background: #69ff4f;
+  color: #111;
+}
+.notify-ok:active {
+  transform: translateY(1px);
+}
