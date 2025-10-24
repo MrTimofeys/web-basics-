@@ -1,4 +1,4 @@
-const dishes = [
+const dishes1 = [
 {
     keyword: "gazpacho",
     name: "Гаспачо",

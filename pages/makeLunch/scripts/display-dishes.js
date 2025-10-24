@@ -1,9 +1,14 @@
 const activeFilters = { soup:null, main:null, salad:null, drink:null, dessert:null };
 
-function displayDishes() {
+let dishes = []
+
+async function displayDishes() {
+
+  dishes = await loadDishes();
+
   const byCat = {
     soup:  dishes.filter(d=>d.category==='soup'),
-    main:  dishes.filter(d=>d.category==='main'),
+    main:  dishes.filter(d=>d.category==='main-course'),
     salad: dishes.filter(d=>d.category==='salad'),
     drink: dishes.filter(d=>d.category==='drink'),
     dessert: dishes.filter(d=>d.category==='dessert'),
@@ -11,6 +16,23 @@ function displayDishes() {
   Object.keys(CATEGORY_CONFIG).forEach(cat=>{
     renderCategorySection(cat, CATEGORY_CONFIG[cat], byCat[cat]);
   });
+}
+
+//лаба 7
+async function loadDishes() {
+    try {
+        const response = await fetch('https://edu.std-900.ist.mospolytech.ru/labs/api/dishes');
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Ошибка при загрузке блюд:', error);
+        return [];
+    }
 }
 
 function renderCategorySection(category, config, list) {
