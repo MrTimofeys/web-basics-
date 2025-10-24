@@ -6,6 +6,8 @@ async function displayDishes() {
 
   dishes = await loadDishes();
 
+  window.dispatchEvent(new Event('dishesLoaded'));
+
   const byCat = {
     soup:  dishes.filter(d=>d.category==='soup'),
     main:  dishes.filter(d=>d.category==='main-course'),

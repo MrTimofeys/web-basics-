@@ -1,87 +1,165 @@
 class OrderManager {
-  constructor() {
-    this.selectedDishes = { soup:null, main:null, salad:null, drink:null, dessert:null };
-    this.init();
-  }
-  init(){ this.setupEventListeners(); this.updateOrderDisplay(); }
-
-  setupEventListeners(){
-    document.addEventListener('click', (e)=>{
-      const item = e.target.closest('.dish-item');
-      if (!item) return;
-      const key = item.getAttribute('data-dish');
-      const dish = dishes.find(d=>d.keyword===key);
-      if (!dish) return;
-      this.selectedDishes[dish.category] = dish;
-      this.updateOrderDisplay();
-    });
-  }
-
-  updateOrderDisplay(){
-    this.updateOrderSummary();
-    this.updateTotalPrice();
-    this.updateFormSelects();
-  }
-
-  updateOrderSummary(){
-    const box = document.querySelector('.client_order');
-    let html = '<h3>Ваш заказ</h3>';
-
-    const any = Object.values(this.selectedDishes).some(Boolean);
-    if (!any){ box.innerHTML = html + '<p>Ничего не выбрано</p>'; return; }
-
-    const line = (title, d) => {
-      return `<div class="order-category"><strong>${title}</strong><br>${
-        d ? `${d.name} ${d.price}Р` : 'Блюдо не выбрано'
-      }</div>`;
-    };
-
-    html += line('Суп', this.selectedDishes.soup);
-    html += line('Главное блюдо', this.selectedDishes.main);
-    html += line('Салат/стартер', this.selectedDishes.salad);
-    html += line('Напиток', this.selectedDishes.drink);
-    html += line('Десерт', this.selectedDishes.dessert);
-
-    box.innerHTML = html;
-  }
-
-  updateTotalPrice(){
-    const sum = Object.values(this.selectedDishes)
-      .reduce((acc, d)=>acc + (d ? d.price : 0), 0);
-
-    const container = document.querySelector('.client_order');
-    let totalEl = container.querySelector('.order-total');
-
-    if (sum>0){
-      if (!totalEl){
-        totalEl = document.createElement('div');
-        totalEl.className = 'order-total';
-        container.appendChild(totalEl);
-      }
-      totalEl.innerHTML = `<strong>Стоимость заказа</strong><br>${sum}Р`;
-      totalEl.style.display = 'block';
-    } else if (totalEl){
-      totalEl.style.display = 'none';
+    constructor() {
+        this.selectedDishes = {
+            soup: null,
+            main: null,
+            salad: null,
+            drink: null,
+            dessert: null
+        };
+        this.loadFromLocalStorage();
+        this.init();
     }
-  }
 
-  updateFormSelects(){
-    const map = {
-      soup: document.getElementById('soup_select'),
-      main: document.getElementById('main_dish_select'),
-      salad: document.getElementById('salad_select'),
-      drink: document.getElementById('drink_select'),
-      dessert: document.getElementById('dessert_select'),
-    };
-    Object.entries(map).forEach(([cat, sel])=>{
-      if (sel && this.selectedDishes[cat]) sel.value = this.selectedDishes[cat].keyword;
-    });
-  }
+    init() {
+        this.setupEventListeners();
+        this.updateOrderDisplay();
+        this.restoreSelectedDishesUI();
+    }
 
-  getSelectedDishes(){ return this.selectedDishes; }
-  getTotalPrice(){ return Object.values(this.selectedDishes).reduce((a,d)=>a+(d?d.price:0),0); }
+    setupEventListeners() {
+        document.addEventListener('click', (e) => {
+            const item = e.target.closest('.dish-item');
+            if (!item) return;
+            
+            const key = item.getAttribute('data-dish');
+            const dish = dishes.find(d => d.keyword === key);
+            if (!dish) return;
+            
+            // Нормализуем категорию
+            let category = dish.category;
+            if (category === 'main-course') {
+                category = 'main';
+            }
+            
+            this.selectedDishes[category] = dish;
+            this.saveToLocalStorage();
+            this.updateOrderDisplay();
+            this.updateSelectedDishesUI();
+        });
+    }
+
+    saveToLocalStorage() {
+        const dishIds = {};
+        Object.keys(this.selectedDishes).forEach(category => {
+            const dish = this.selectedDishes[category];
+            dishIds[category] = dish ? dish.id : null;
+        });
+        localStorage.setItem('selectedDishIds', JSON.stringify(dishIds));
+    }
+
+    loadFromLocalStorage() {
+        try {
+            const stored = localStorage.getItem('selectedDishIds');
+            if (!stored) return;
+
+            const dishIds = JSON.parse(stored);
+            
+            const restoreSelection = () => {
+                Object.keys(dishIds).forEach(category => {
+                    const dishId = dishIds[category];
+                    if (dishId !== null) {
+                        const dish = dishes.find(d => d.id === dishId);
+                        if (dish) {
+                            this.selectedDishes[category] = dish;
+                        }
+                    }
+                });
+                this.updateOrderDisplay();
+                this.updateSelectedDishesUI();
+            };
+
+            if (dishes && dishes.length > 0) {
+                restoreSelection();
+            } else {
+                window.addEventListener('dishesLoaded', restoreSelection, { once: true });
+            }
+        } catch (error) {
+            console.error('Ошибка при загрузке данных из localStorage:', error);
+        }
+    }
+
+    // Визуальное выделение выбранных блюд
+    updateSelectedDishesUI() {
+        // Убираем все выделения
+        document.querySelectorAll('.dish-item').forEach(item => {
+            item.classList.remove('selected');
+        });
+
+        // Добавляем выделение для выбранных блюд
+        Object.values(this.selectedDishes).forEach(dish => {
+            if (dish) {
+                const dishElement = document.querySelector(`.dish-item[data-dish="${dish.keyword}"]`);
+                if (dishElement) {
+                    dishElement.classList.add('selected');
+                }
+            }
+        });
+    }
+
+    // Восстановление выделения при загрузке страницы
+    restoreSelectedDishesUI() {
+        setTimeout(() => {
+            this.updateSelectedDishesUI();
+        }, 100);
+    }
+
+    clearSelection() {
+        this.selectedDishes = {
+            soup: null,
+            main: null,
+            salad: null,
+            drink: null,
+            dessert: null
+        };
+        this.saveToLocalStorage();
+        this.updateOrderDisplay();
+        this.updateSelectedDishesUI();
+    }
+
+    getSelectedDishes() {
+        return { ...this.selectedDishes };
+    }
+
+    updateOrderDisplay() {
+        this.updateStickyPanel();
+    }
+
+    updateStickyPanel() {
+        const panel = document.getElementById('order-summary-panel');
+        const priceElement = document.getElementById('sticky-total-price');
+        const proceedBtn = document.getElementById('proceed-to-order-btn');
+        
+        if (!panel || !priceElement || !proceedBtn) return;
+
+        // Подсчитываем общую стоимость
+        const total = Object.values(this.selectedDishes)
+            .filter(d => d !== null)
+            .reduce((sum, d) => sum + d.price, 0);
+
+        const hasAnyDish = Object.values(this.selectedDishes).some(d => d !== null);
+
+        // Показываем/скрываем панель
+        if (hasAnyDish) {
+            panel.style.display = 'block';
+            priceElement.textContent = `${total}₽`;
+        } else {
+            panel.style.display = 'none';
+        }
+
+        // Проверяем валидность комбо
+        const isValid = typeof window.isValidCombo === 'function' 
+            ? window.isValidCombo(this.selectedDishes) 
+            : false;
+
+        if (isValid) {
+            proceedBtn.classList.remove('disabled');
+        } else {
+            proceedBtn.classList.add('disabled');
+        }
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  window.orderManager = new OrderManager();
+    window.orderManager = new OrderManager();
 });
