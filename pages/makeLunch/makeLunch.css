@@ -496,7 +496,7 @@ textarea {
     transform: scale(0.98);
 }
 
-/* Sticky-панель для перехода к оформлению */
+/* Лаба 8 */
 .order-summary-sticky {
     position: sticky;
     bottom: 0;
@@ -508,17 +508,6 @@ textarea {
     z-index: 1000;
     border-top: 2px solid #e67e22;
     animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-    from {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
 }
 
 .order-summary-content {

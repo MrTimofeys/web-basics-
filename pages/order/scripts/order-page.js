@@ -1,9 +1,7 @@
-// Глобальные переменные
 let dishes = [];
-const API_KEY = '715e9eb2-78a4-4f06-a7e5-1c9f751f9fe1'; // Замените на ваш API ключ
+const API_KEY = '715e9eb2-78a4-4f06-a7e5-1c9f751f9fe1'; 
 const API_URL = 'https://edu.std-900.ist.mospolytech.ru/labs/api/orders';
 
-// ВАЖНО: делаем selectedDishes глобальной переменной
 window.selectedDishes = {
     soup: null,
     main: null,
@@ -12,7 +10,6 @@ window.selectedDishes = {
     dessert: null
 };
 
-// Маппинг категорий
 const categoryMapping = {
     'main-course': 'main',
     'main': 'main',
@@ -22,7 +19,6 @@ const categoryMapping = {
     'dessert': 'dessert'
 };
 
-// Загрузка блюд с API
 async function loadDishes() {
     try {
         const response = await fetch('https://edu.std-900.ist.mospolytech.ru/labs/api/dishes');
@@ -41,7 +37,6 @@ async function loadDishes() {
     }
 }
 
-// Загрузка выбранных блюд из localStorage
 function loadSelectedDishes() {
     try {
         const stored = localStorage.getItem('selectedDishIds');
@@ -69,7 +64,6 @@ function loadSelectedDishes() {
     }
 }
 
-// Отображение выбранных блюд
 function displayOrderDishes() {
     const grid = document.getElementById('order-dishes-grid');
     const emptyMessage = document.getElementById('empty-order-message');
@@ -92,7 +86,6 @@ function displayOrderDishes() {
     });
 }
 
-// Создание карточки блюда
 function createDishCard(dish) {
     const card = document.createElement('div');
     card.className = 'dish-item';
@@ -109,7 +102,6 @@ function createDishCard(dish) {
     return card;
 }
 
-// Обновление формы заказа
 function updateOrderSummary() {
     const categoryNames = {
         soup: 'Суп',
@@ -151,7 +143,6 @@ function updateOrderSummary() {
     document.getElementById('total-amount').textContent = total;
 }
 
-// Удаление блюда из заказа
 function removeDish(category) {
     window.selectedDishes[category] = null;
     saveToLocalStorage();
@@ -159,7 +150,6 @@ function removeDish(category) {
     updateOrderSummary();
 }
 
-// Сохранение в localStorage
 function saveToLocalStorage() {
     const dishIds = {};
     Object.keys(window.selectedDishes).forEach(category => {
@@ -169,7 +159,6 @@ function saveToLocalStorage() {
     localStorage.setItem('selectedDishIds', JSON.stringify(dishIds));
 }
 
-// Обработка кликов на кнопку "Удалить"
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('remove-btn')) {
         const category = e.target.getAttribute('data-category');
@@ -177,7 +166,6 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Обработка кнопки "Сбросить"
 document.getElementById('reset-btn').addEventListener('click', () => {
     if (confirm('Вы уверены, что хотите очистить заказ?')) {
         window.selectedDishes = {
@@ -194,10 +182,8 @@ document.getElementById('reset-btn').addEventListener('click', () => {
     }
 });
 
-// Функция отправки заказа на сервер
 async function submitOrder(formData) {
     try {
-        // Формируем URL с API ключом
         const url = `${API_URL}?api_key=${API_KEY}`;
         
         const response = await fetch(url, {
@@ -205,7 +191,6 @@ async function submitOrder(formData) {
             body: formData
         });
 
-        // Проверяем статус ответа
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
@@ -219,13 +204,11 @@ async function submitOrder(formData) {
     }
 }
 
-// Валидация формы перед отправкой
 document.getElementById('order-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     
     console.log('Проверка заказа:', window.selectedDishes);
     
-    // Проверка комбо
     if (!window.isValidCombo(window.selectedDishes)) {
         const notice = window.pickNotice(window.selectedDishes);
         console.log('Ошибка валидации:', notice);
@@ -242,21 +225,18 @@ document.getElementById('order-form').addEventListener('submit', async (e) => {
     console.log('Валидация успешна!');
     
     try {
-        // Собираем данные формы
         const form = e.target;
         const formData = new FormData(form);
         
-        // Получаем данные из формы
         const fullName = formData.get('name');
         const email = formData.get('email');
         const subscribe = formData.get('getInfo') ? 1 : 0;
         const phone = formData.get('phoneNumber');
         const deliveryAddress = formData.get('address');
-        const deliveryType = formData.get('delivery_time'); // Теперь будет "now" или "by_time"
+        const deliveryType = formData.get('delivery_time');
         const deliveryTime = formData.get('delivery_time_input');
         const comment = formData.get('comments') || '';
         
-        // Создаём новый FormData с правильными именами полей
         const apiFormData = new FormData();
         apiFormData.append('full_name', fullName);
         apiFormData.append('email', email);
@@ -265,7 +245,6 @@ document.getElementById('order-form').addEventListener('submit', async (e) => {
         apiFormData.append('delivery_address', deliveryAddress);
         apiFormData.append('delivery_type', deliveryType);
         
-        // Добавляем delivery_time только если выбрано "К указанному времени"
         if (deliveryType === 'by_time' && deliveryTime) {
             apiFormData.append('delivery_time', deliveryTime);
         }
@@ -274,7 +253,6 @@ document.getElementById('order-form').addEventListener('submit', async (e) => {
             apiFormData.append('comment', comment);
         }
         
-        // Добавляем ID блюд
         if (window.selectedDishes.soup) {
             apiFormData.append('soup_id', window.selectedDishes.soup.id);
         }
@@ -291,28 +269,23 @@ document.getElementById('order-form').addEventListener('submit', async (e) => {
             apiFormData.append('dessert_id', window.selectedDishes.dessert.id);
         }
         
-        // Логируем данные для отладки
         console.log('Отправляемые данные:');
         for (let [key, value] of apiFormData.entries()) {
             console.log(`${key}: ${value}`);
         }
         
-        // Отправляем заказ
         const result = await submitOrder(apiFormData);
         
         console.log('Заказ успешно отправлен:', result);
         
-        // Очищаем localStorage только после успешной отправки
         localStorage.removeItem('selectedDishIds');
         
-        // Показываем уведомление об успехе
         if (typeof window.showNotice === 'function') {
             window.showNotice('Заказ успешно оформлен! Номер заказа: ' + result.id);
         } else {
             alert('Заказ успешно оформлен! Номер заказа: ' + result.id);
         }
         
-        // Перенаправляем на главную через 2 секунды
         setTimeout(() => {
             window.location.href = '../../index.html';
         }, 2000);
@@ -320,7 +293,6 @@ document.getElementById('order-form').addEventListener('submit', async (e) => {
     } catch (error) {
         console.error('Ошибка при оформлении заказа:', error);
         
-        // Показываем уведомление об ошибке
         const errorMessage = error.message || 'Произошла ошибка при оформлении заказа. Попробуйте снова.';
         
         if (typeof window.showNotice === 'function') {
@@ -331,7 +303,6 @@ document.getElementById('order-form').addEventListener('submit', async (e) => {
     }
 });
 
-// Инициализация страницы
 async function init() {
     dishes = await loadDishes();
     loadSelectedDishes();

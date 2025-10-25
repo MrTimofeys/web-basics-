@@ -26,7 +26,6 @@ class OrderManager {
             const dish = dishes.find(d => d.keyword === key);
             if (!dish) return;
             
-            // Нормализуем категорию
             let category = dish.category;
             if (category === 'main-course') {
                 category = 'main';
@@ -79,14 +78,11 @@ class OrderManager {
         }
     }
 
-    // Визуальное выделение выбранных блюд
     updateSelectedDishesUI() {
-        // Убираем все выделения
         document.querySelectorAll('.dish-item').forEach(item => {
             item.classList.remove('selected');
         });
 
-        // Добавляем выделение для выбранных блюд
         Object.values(this.selectedDishes).forEach(dish => {
             if (dish) {
                 const dishElement = document.querySelector(`.dish-item[data-dish="${dish.keyword}"]`);
@@ -97,7 +93,6 @@ class OrderManager {
         });
     }
 
-    // Восстановление выделения при загрузке страницы
     restoreSelectedDishesUI() {
         setTimeout(() => {
             this.updateSelectedDishesUI();
@@ -132,14 +127,12 @@ class OrderManager {
         
         if (!panel || !priceElement || !proceedBtn) return;
 
-        // Подсчитываем общую стоимость
         const total = Object.values(this.selectedDishes)
             .filter(d => d !== null)
             .reduce((sum, d) => sum + d.price, 0);
 
         const hasAnyDish = Object.values(this.selectedDishes).some(d => d !== null);
 
-        // Показываем/скрываем панель
         if (hasAnyDish) {
             panel.style.display = 'block';
             priceElement.textContent = `${total}₽`;
@@ -147,7 +140,6 @@ class OrderManager {
             panel.style.display = 'none';
         }
 
-        // Проверяем валидность комбо
         const isValid = typeof window.isValidCombo === 'function' 
             ? window.isValidCombo(this.selectedDishes) 
             : false;

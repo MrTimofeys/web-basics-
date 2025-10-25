@@ -19,11 +19,9 @@
     </header>
 
     <main>
-        <!-- Состав заказа -->
         <section class="order-composition">
             <h2>Состав заказа</h2>
             <div id="order-dishes-grid" class="dishes-grid">
-                <!-- Здесь будут отображаться выбранные блюда -->
             </div>
             <div id="empty-order-message" style="display: none;">
                 <p>Ничего не выбрано. Чтобы добавить блюда в заказ, перейдите на страницу 
@@ -31,12 +29,10 @@
             </div>
         </section>
 
-        <!-- Форма оформления заказа -->
         <section class="form-section">
             <h2>Оформление заказа</h2>
             <form id="order-form" method="POST" action="https://httpbin.org/post">
                 <div class="form-columns">
-                    <!-- Левая колонка: Ваш заказ -->
                     <div class="client_order">
                         <h3>Ваш заказ</h3>
                         <div id="order-summary">
@@ -49,7 +45,6 @@
                         </div>
                     </div>
 
-                    <!-- Правая колонка: Ваши данные -->
                     <div class="client_data">
                         <h3>Ваши данные</h3>
                         
@@ -116,7 +111,6 @@
                     </div>
                 </div>
 
-                <!-- Скрытые поля для отправки данных на сервер -->
                 <input type="hidden" name="soup_id" id="soup_id">
                 <input type="hidden" name="main_id" id="main_id">
                 <input type="hidden" name="salad_id" id="salad_id">
@@ -124,7 +118,6 @@
                 <input type="hidden" name="dessert_id" id="dessert_id">
             </form>
 
-            <!-- Уведомление об ошибке комбо -->
             <div id="combo-error" class="error-message" style="display: none;"></div>
         </section>
     </main>

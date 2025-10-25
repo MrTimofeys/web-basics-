@@ -2,11 +2,9 @@
   "use strict";
 
   function getSelection() {
-    // Сначала проверяем глобальный объект selectedDishes
     if (window.selectedDishes) {
       return window.selectedDishes;
     }
-    // Потом проверяем orderManager
     if (
       window.orderManager &&
       typeof window.orderManager.getSelectedDishes === "function"
@@ -87,19 +85,16 @@
     `;
     document.body.appendChild(backdrop);
 
-    // Закрытие по клику на кнопку
     backdrop.querySelector(".notify-close").addEventListener("click", () => {
       backdrop.remove();
     });
 
-    // Закрытие по клику на фон
     backdrop.addEventListener("click", (e) => {
       if (e.target === backdrop) {
         backdrop.remove();
       }
     });
 
-    // Закрытие по клавише Escape
     const handleEscape = (e) => {
       if (e.key === "Escape") {
         backdrop.remove();
@@ -123,7 +118,6 @@
     });
   }
 
-  // Экспортируем функции глобально
   window.isValidCombo = isValidCombo;
   window.pickNotice = pickNotice;
   window.showNotice = showNotice;
