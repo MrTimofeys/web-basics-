@@ -1,0 +1,342 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h2 {
+    margin: 30px 0;
+    color: #333;
+}
+
+.notification {
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: opacity 0.3s;
+}
+
+.notification.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.notification.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.notification.hidden {
+    display: none;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #666;
+}
+
+.error-message {
+    padding: 20px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin: 20px 0;
+}
+
+.error-message.hidden {
+    display: none;
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.orders-table thead {
+    background-color: #f8f9fa;
+}
+
+.orders-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.orders-table td {
+    padding: 15px;
+    border-bottom: 1px solid #dee2e6;
+    color: #555;
+}
+
+.orders-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.dishes-cell {
+    max-width: 300px;
+}
+
+.actions-cell {
+    white-space: nowrap;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 40px !important;
+    color: #999;
+    font-style: italic;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin: 0 2px;
+    color: #666;
+    font-size: 18px;
+    transition: color 0.2s;
+}
+
+.icon-btn:hover {
+    color: #007bff;
+}
+
+.icon-btn:last-child:hover {
+    color: #dc3545;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.modal-small {
+    max-width: 400px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #333;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-btn:hover {
+    color: #333;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    padding: 20px;
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.order-info p {
+    margin: 10px 0;
+}
+
+.order-info h4 {
+    margin: 20px 0 10px 0;
+    color: #333;
+    font-size: 16px;
+}
+
+.order-info .total {
+    font-size: 18px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #dee2e6;
+}
+
+.dishes-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dishes-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.dishes-list li:last-child {
+    border-bottom: none;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: 500;
+}
+
+.required {
+    color: #dc3545;
+    margin-left: 2px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="time"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+.form-group small {
+    display: block;
+    margin-top: 5px;
+    color: #666;
+    font-size: 12px;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 8px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+@media (max-width: 768px) {
+    .orders-table {
+        font-size: 14px;
+    }
+    
+    .orders-table th,
+    .orders-table td {
+        padding: 10px;
+    }
+    
+    .dishes-cell {
+        max-width: 200px;
+        font-size: 13px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 10px;
+    }
+}
